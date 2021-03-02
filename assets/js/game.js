@@ -1,33 +1,39 @@
 
+//Game States
+//"WIN" - player defeats all enemies
+//  * player fights all enemies
+//  * enemies run out of health
+//"LOSE" - player runs out of health
+
 var playerName = window.prompt("What is your robot's name?");
 var health = 100;
 var attack = 10;
 var playerMoney = 10;
 
-var enemyBot = "Roborto"
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-function fight(){
+function fight(enemyName){
 
     var promptFight = window.prompt("Would you like to fight? Type fight or skip to choose.");
 
     if(promptFight === "fight" || promptFight === "FIGHT"){
         window.alert("The fight has begun!");
-        window.alert(playerName + " and " + enemyBot + " have entered the arena");
+        window.alert(playerName + " and " + enemyName + " have entered the arena");
         
         enemyHealth -= attack;
         window.alert(playerName + " dealt " + attack + " damage!");
     
         if(enemyHealth <= 0){
-            window.alert(enemyBot + " has lost the fight!");
+            window.alert(enemyName + " has lost the fight!");
         }
         else{
-            window.alert(enemyBot + " has " + enemyHealth + " health remaining.");
+            window.alert(enemyName + " has " + enemyHealth + " health remaining.");
         }
         
         health -= enemyAttack;
-        window.alert(enemyBot + " dealt " + enemyAttack + " damage!");
+        window.alert(enemyName + " dealt " + enemyAttack + " damage!");
     
         if(health <= 0){
             window.alert(playerName + " has lost the fight. Good luck next time!")
@@ -45,17 +51,19 @@ function fight(){
             console.log("Player money = " + playerMoney);
         }
         else {
-            fight();
+            fight(enemyName);
         }
-       
     }
     else{
         promptFight = window.alert("Command not recognized");
-        fight();
+        fight(enemyName);
     }
 }
 
-fight();
+//fight();
 
+for(var i = 0; i < enemyNames.length; i++){
+    fight(enemyNames[i]);
+}
 
 
