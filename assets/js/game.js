@@ -7,62 +7,61 @@
 
 var playerName = window.prompt("What is your robot's name?");
 var health = 100;
-var attack = 10;
+var attack = 15;
 var playerMoney = 10;
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
-var enemyAttack = 12;
+var enemyHealth = 30;
+var enemyAttack = 10;
 
-function fight(enemyName){
+function fight(enemyName)
+{
+    while(enemyHealth > 0 && health >0)
+    {
+        var promptFight = window.prompt("Would you like to fight? Type fight or skip to choose.");
+        if(promptFight === "skip" || promptFight === "SKIP")
+        {
+            var confirmSkip = window.confirm("Are you sure you want to skip?");
+            if(confirmSkip)
+            {
+                playerMoney -= 10;
+                window.alert("Fight against " + enemyName + " skipped, you lose 10 coin!");
+                console.log("Player money = " + playerMoney);
+                break; 
+            }
+            else 
+            {
+                fight(enemyName);
+            }
+        }
 
-    var promptFight = window.prompt("Would you like to fight? Type fight or skip to choose.");
-
-    if(promptFight === "fight" || promptFight === "FIGHT"){
-        window.alert("The fight has begun!");
         window.alert(playerName + " and " + enemyName + " have entered the arena");
         
         enemyHealth -= attack;
-        window.alert(playerName + " dealt " + attack + " damage!");
+        window.alert(playerName + " dealt " + attack + " damage! " + enemyName + " has " + enemyHealth + " health remaining.");
     
-        if(enemyHealth <= 0){
-            window.alert(enemyName + " has lost the fight!");
-        }
-        else{
-            window.alert(enemyName + " has " + enemyHealth + " health remaining.");
-        }
+        if(enemyHealth > 0)
+        {
+            health -= enemyAttack;
+            window.alert(enemyName + " dealt " + enemyAttack + " damage! " + playerName + " has " + health + " health remaining.");
         
-        health -= enemyAttack;
-        window.alert(enemyName + " dealt " + enemyAttack + " damage!");
-    
-        if(health <= 0){
-            window.alert(playerName + " has lost the fight. Good luck next time!")
+            if(health <= 0)
+            {
+                window.alert(playerName + " has lost the fight. Good luck next time!");
+            } 
         }
-        else{
-            window.alert(playerName + " has " + health + " health remaining.");
+        else
+        {
+            window.alert(enemyName + " has lost the fight!");
+            playerMoney += 20;
         }
-    }
-    else if(promptFight === "skip" || promptFight === "SKIP"){
-        var confirmSkip = window.confirm("Are you sure you want to skip?")
-
-        if(confirmSkip){
-            playerMoney -= 10;
-            window.alert("Fight skipped, you lose 10 coin!");
-            console.log("Player money = " + playerMoney);
-        }
-        else {
-            fight(enemyName);
-        }
-    }
-    else{
-        promptFight = window.alert("Command not recognized");
-        fight(enemyName);
     }
 }
 
-//fight();
-
-for(var i = 0; i < enemyNames.length; i++){
+for(var i = 0; i < enemyNames.length; i++)
+{
+    var selectedEnemy = enemyNames[i];
+    enemyHealth = 30;
     fight(enemyNames[i]);
 }
 
