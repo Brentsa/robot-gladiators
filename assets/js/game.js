@@ -55,6 +55,13 @@ function startGame(){
             enemyHealth = 30;
     
             fight(selectedEnemy);
+            
+            //Go to the shop if we won the last fight and have remaining enemies 
+            if(health > 0 && i < (enemyNames.length - 1)){
+                var enterShop = confirm("Would you like to enter the shop?");
+                if(enterShop)
+                    shop();
+            }
         } 
         else{
             window.alert(playerName + " has lost the fight. Good luck next time!");
@@ -81,6 +88,50 @@ function endGame(){
     else{
         alert("Thanks for playing, come back soon!");
     }
+}
+
+function shop(){
+    var upgradeCost = 10;
+    var healthIncrease = 30;
+    var attackIncrease = 5;
+
+    var userSelectionPrompt = prompt("Current money: " + playerMoney + " / Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+
+    switch(userSelectionPrompt){
+        case "REFILL":
+        case "refill":
+            if(playerMoney > upgradeCost){
+                health += healthIncrease;
+                playerMoney -= upgradeCost;
+                alert("Refilling the player's health by " + healthIncrease + " for " + upgradeCost + " coins. Current Health: " + health);
+            }
+            else{
+                alert("Not enough funds to purchase, exiting shop.");
+            }
+            break;
+
+        case "UPGRADE":
+        case "upgrade":
+            if(playerMoney > upgradeCost){
+                attack += attackIncrease;
+                playerMoney -= upgradeCost;
+                alert("Increasing the player's attack by " + attackIncrease + " for " + upgradeCost + " coins. Current attack: " + attack);
+            }
+            else{
+                alert("Not enough funds to purchase, exiting shop.");
+            }
+            break;
+
+        case "LEAVE":
+        case "leave":
+            alert("Exiting the shop.");
+            break;
+
+        default:
+            alert("Please make a valid selection");
+            shop();
+            break;
+    }   
 }
 
 startGame();
