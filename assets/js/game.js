@@ -6,12 +6,12 @@
 
 var playerName = prompt("What is your robot's name?");
 var health = 100;
-var attack = 15;
+var attack = 33;
 var playerMoney = 10;
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 30;
-var enemyAttack = 50;
+var enemyHealth = 10;
+var enemyAttack = 10;
 
 function fight(enemyName){
     while(enemyHealth > 0 && health >0){
@@ -19,7 +19,7 @@ function fight(enemyName){
         if(promptFight === "skip" || promptFight === "SKIP"){
             var confirmSkip = confirm("Are you sure you want to skip?");
             if(confirmSkip){
-                playerMoney -= 10;
+                playerMoney = Math.max(0, (playerMoney - 10));
                 window.alert("Fight against " + enemyName + " skipped, you lose 10 coin!");
                 break; 
             }
@@ -27,12 +27,14 @@ function fight(enemyName){
 
         alert(playerName + " and " + enemyName + " have entered the arena");
         
-        enemyHealth -= attack;
-        alert(playerName + " dealt " + attack + " damage! " + enemyName + " has " + enemyHealth + " health remaining.");
+        var playerDamageDealt = randomNumber(attack - 5, attack);
+        enemyHealth = Math.max(0 , (enemyHealth-playerDamageDealt));
+        alert(playerName + " dealt " + playerDamageDealt + " damage! " + enemyName + " has " + enemyHealth + " health remaining.");
     
         if(enemyHealth > 0){
-            health -= enemyAttack;
-            alert(enemyName + " dealt " + enemyAttack + " damage! " + playerName + " has " + health + " health remaining.");
+            var enemyDamageDealt = randomNumber(enemyAttack - 5, enemyAttack);
+            health = Math.max(0 , (health - enemyDamageDealt));
+            alert(enemyName + " dealt " + enemyDamageDealt + " damage! " + playerName + " has " + health + " health remaining.");
         }
         else{
             window.alert(enemyName + " has lost the fight!");
@@ -43,7 +45,7 @@ function fight(enemyName){
 
 function startGame(){
     health = 100;
-    attack = 50;
+    attack = 33;
     playerMoney = 10;
 
     for(var i = 0; i < enemyNames.length; i++)
@@ -52,7 +54,8 @@ function startGame(){
             alert("Welcome to Robot Gladiators! Round: " + (i + 1) + " - " + enemyNames[i]);   
             
             var selectedEnemy = enemyNames[i];
-            enemyHealth = 30;
+            enemyHealth = randomNumber(40,60);
+            enemyAttack = randomNumber(10,20);
     
             fight(selectedEnemy);
             
@@ -132,6 +135,11 @@ function shop(){
             shop();
             break;
     }   
+}
+
+function randomNumber(min, max){
+    var randNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randNum;
 }
 
 startGame();
