@@ -5,7 +5,7 @@
 //"LOSE" - player runs out of health
 
 var playerInfo = {
-    name: prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 33,
     money: 10,
@@ -55,6 +55,17 @@ var enemyInfo = [
     }
 ];
 
+function getPlayerName(){
+    var playerName = ""
+
+    while(playerName === "" || playerName === null){
+        playerName = prompt("What is your robot's name?");
+    }
+
+    alert("Welcome to Robot Gladiators " + playerName + "!");
+    return playerName;
+}
+
 function fight(enemy){
     console.log(enemy);
     while(enemy.health > 0 && playerInfo.health >0){
@@ -95,6 +106,7 @@ function startGame(){
             var selectedEnemy = enemyInfo[i];
             selectedEnemy.health = randomNumber(40,60);
             alert("Welcome to Robot Gladiators! Round: " + (i + 1) + " - " + selectedEnemy.name);  
+            debugger;
 
             fight(selectedEnemy);
             
