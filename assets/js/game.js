@@ -1,8 +1,3 @@
-//Game States
-//"WIN" - player defeats all enemies
-//  * player fights all enemies
-//  * enemies run out of health
-//"LOSE" - player runs out of health
 
 var playerInfo = {
     name: getPlayerName(),
@@ -33,6 +28,10 @@ var playerInfo = {
         else{
             alert("Not enough funds to purchase, exiting shop.");
         }
+    },
+    loseMoney: function(amount){
+        this.money = Math.max(0, (this.money - amount));
+        window.alert("Fight skipped, you lose " + amount + " coin!");
     }
 };
 
@@ -69,14 +68,9 @@ function getPlayerName(){
 function fight(enemy){
     console.log(enemy);
     while(enemy.health > 0 && playerInfo.health >0){
-        var promptFight = prompt("Would you like to fight? Type fight or skip to choose.");
-        if(promptFight === "skip" || promptFight === "SKIP"){
-            var confirmSkip = confirm("Are you sure you want to skip?");
-            if(confirmSkip){
-                playerInfo.money = Math.max(0, (playerInfo.money - 10));
-                window.alert("Fight against " + enemy.name + " skipped, you lose 10 coin!");
-                break; 
-            }
+        
+        if(fightOrSkip()){
+            break;
         }
 
         alert(playerInfo.name + " and " + enemy.name + " have entered the arena");
@@ -95,6 +89,27 @@ function fight(enemy){
             playerInfo.money += 20;
         }
     }
+}
+
+function fightOrSkip(){
+    var promptFight = prompt("Would you like to FIGHT or SKIP this battle? Type 'FIGHT' or 'SKIP' to choose.");
+
+    if(!promptFight)
+    {
+        alert("Please provide a valid answer.");
+        return fightOrSkip();
+    }
+    
+    if(promptFight.toLowerCase() === "skip"){
+        var confirmSkip = confirm("Are you sure you want to skip?");
+        if(confirmSkip){
+            alert(playerInfo.name + " decided to skip this fight. Goodbye!")
+            playerInfo.loseMoney(10);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function startGame(){
