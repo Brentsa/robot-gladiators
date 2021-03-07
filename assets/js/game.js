@@ -66,7 +66,6 @@ function getPlayerName(){
 }
 
 function fight(enemy){
-    console.log(enemy);
     while(enemy.health > 0 && playerInfo.health >0){
         
         if(fightOrSkip()){
@@ -74,20 +73,28 @@ function fight(enemy){
         }
 
         alert(playerInfo.name + " and " + enemy.name + " have entered the arena");
-        
-        var playerDamageDealt = randomNumber(playerInfo.attack - 5, playerInfo.attack);
-        enemy.health = Math.max(0 , (enemy.health-playerDamageDealt));
-        alert(playerInfo.name + " dealt " + playerDamageDealt + " damage! " + enemy.name + " has " + enemy.health + " health remaining.");
-    
-        if(enemy.health > 0){
-            var enemyDamageDealt = randomNumber(enemy.attack - 5, enemy.attack);
-            playerInfo.health = Math.max(0 , (playerInfo.health - enemyDamageDealt));
-            alert(enemy.name + " dealt " + enemyDamageDealt + " damage! " + playerInfo.name + " has " + playerInfo.health + " health remaining.");
+       
+        if(Math.random() >= 0.50){
+            applyDamage(playerInfo, enemy);
+            applyDamage(enemy, playerInfo);
         }
         else{
+            applyDamage(enemy, playerInfo);
+            applyDamage(playerInfo, enemy);
+        }
+
+        if(enemy.health === 0){
             window.alert(enemy.name + " has lost the fight!");
             playerInfo.money += 20;
         }
+    }
+}
+
+function applyDamage(attacker, receiver){
+    if(attacker.health > 0 && receiver.health > 0){
+        var damageDealt = randomNumber(attacker.attack - 5, attacker.attack);
+        receiver.health = Math.max(0 , (receiver.health - damageDealt));
+        alert(attacker.name + " dealt " + damageDealt + " damage! " + receiver.name + " has " + receiver.health + " health remaining.");
     }
 }
 
@@ -121,7 +128,6 @@ function startGame(){
             var selectedEnemy = enemyInfo[i];
             selectedEnemy.health = randomNumber(40,60);
             alert("Welcome to Robot Gladiators! Round: " + (i + 1) + " - " + selectedEnemy.name);  
-            debugger;
 
             fight(selectedEnemy);
             
