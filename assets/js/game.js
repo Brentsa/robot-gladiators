@@ -164,21 +164,18 @@ function shop(){
     var healthIncrease = 30;
     var attackIncrease = 5;
 
-    var userSelectionPrompt = prompt("Current money: " + playerInfo.money + " / Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+    var userSelectionPrompt = parseInt(prompt("Current money: " + playerInfo.money + " / Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Please type 1 to REFILL, 2 to UPGRADE, or 3 to LEAVE."));
 
     switch(userSelectionPrompt){
-        case "REFILL":
-        case "refill":
+        case 1:
             playerInfo.refillHealth(healthIncrease,upgradeCost);
             break;
 
-        case "UPGRADE":
-        case "upgrade":
+        case 2:
             playerInfo.upgradeAttack(attackIncrease, upgradeCost);
             break;
 
-        case "LEAVE":
-        case "leave":
+        case 3:
             alert("Exiting the shop.");
             break;
 
