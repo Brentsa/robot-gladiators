@@ -2,11 +2,11 @@
 var playerInfo = {
     name: getPlayerName(),
     health: 100,
-    attack: 33,
+    attack: 30,
     money: 10,
     reset: function(){
         this.health = 100;
-        this.attack = 33;
+        this.attack = 30;
         this.money = 10;
     },
     refillHealth: function(healAmount,cost){
@@ -150,13 +150,27 @@ function startGame(){
 function endGame(){
     if(playerInfo.health > 0 && playerInfo.money > 0){
         alert("You won the tournament! You finished with a score of: " + playerInfo.money);
+
+        var highscore = localStorage.getItem("highscore");
+        if(highscore === null){
+            highscore = 0;
+        }
+
+        if(playerInfo.money > highscore)
+        {
+            localStorage.setItem("highscore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+            alert("New highscore: " + localStorage.getItem("name") + " - "+ localStorage.getItem("highscore"));
+        }
+        else{
+            alert("Current highscore: " + localStorage.getItem("name") + " - "+ localStorage.getItem("highscore"));
+        }
     }
     else{
         alert("You've lost the tournament, better luck next time!");
     }
     
     var exitGame = confirm("Would you like to play Robot Gladiators again?");
-
     if(exitGame){
         startGame();
     }
